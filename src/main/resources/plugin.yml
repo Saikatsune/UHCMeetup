@@ -1,0 +1,13 @@
+name: UHCMeetup
+author: Saikatsune
+version: 1.2-LATEST
+main: net.saikatsune.meetup.Game
+
+commands:
+  setup:
+    permission: meetup.staff
+  vote:
+  stats:
+  forcestart:
+    permission: meetup.staff
+    aliases: [fs]
