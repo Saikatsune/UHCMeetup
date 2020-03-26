@@ -32,14 +32,14 @@ public class NoCleanListener implements Listener {
             if(Scenarios.NoClean.isEnabled()) {
                 if(killer != null) {
                     noCleanPlayers.add(killer.getUniqueId());
-                    killer.sendMessage(prefix + ChatColor.GREEN + "[NoClean] You are now protected to any damage for 20 seconds!");
+                    killer.sendMessage(prefix + ChatColor.GREEN + "[NoClean] You are now protected to any damage for 20 seconds.");
 
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             if(noCleanPlayers.contains(killer.getUniqueId())) {
                                 noCleanPlayers.remove(killer.getUniqueId());
-                                killer.sendMessage(prefix + ChatColor.RED + "[NoClean] You are no longer protected to any damage!");
+                                killer.sendMessage(prefix + ChatColor.RED + "[NoClean] You are no longer protected to any damage.");
                             }
                         }
                     }.runTaskLater(game, 20 * 20);

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class GameManager {
 
     private Game game = Game.getInstance();
@@ -66,7 +65,7 @@ public class GameManager {
                     }.runTaskTimer(game, 0, 20);
                 }
 
-                Bukkit.broadcastMessage(game.getPrefix() + ChatColor.RED + "The server restarts in 20 seconds!");
+                Bukkit.broadcastMessage(game.getPrefix() + ChatColor.RED + "The server restarts in 20 seconds.");
 
                 new BukkitRunnable() {
                     @Override

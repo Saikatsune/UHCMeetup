@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 public class ConnectionListener implements Listener {
 
@@ -27,16 +29,18 @@ public class ConnectionListener implements Listener {
     public void handlePlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        game.getGameManager().setPlayerState(player, PlayerState.PLAYER);
+        for (PotionEffect potionEffect : player.getActivePotionEffects()) {
+            player.removePotionEffect(potionEffect.getType());
+        }
 
         if(game.isDatabaseActive()) {
             game.getDatabaseManager().registerPlayer(player);
         }
 
         game.getPlayerKills().putIfAbsent(player.getUniqueId(), 0);
-        game.getScoreboardManager().createScoreboard(player);
 
         if(game.getGameStateManager().getCurrentGameState() instanceof LobbyState) {
+            game.getGameManager().setPlayerState(player, PlayerState.PLAYER);
 
             event.setJoinMessage(game.getPrefix() + ChatColor.GREEN + player.getName() +
                     " has joined the game. " + ChatColor.GRAY + "(" + game.getPlayers().size() +
@@ -93,14 +97,16 @@ public class ConnectionListener implements Listener {
                     game.getStartingTask().stopTask();
                 }
             }
-        } else {
+        } else if(game.getGameStateManager().getCurrentGameState() instanceof IngameState) {
             event.setQuitMessage("");
 
-            game.getGameManager().checkWinner();
+            if(game.getLoggedPlayers().contains(player.getUniqueId())) {
 
-            if(game.getPlayers().contains(player)) {
-                player.damage(20);
+                player.damage(24);
+                game.getLoggedPlayers().remove(player.getUniqueId());
             }
+
+            game.getGameManager().checkWinner();
         }
     }
 

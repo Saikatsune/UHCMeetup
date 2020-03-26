@@ -29,6 +29,10 @@ public class EntityDamageListener implements Listener {
 
             if(!(game.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
                 event.setCancelled(true);
+            } else {
+                if(!game.getTimeTask().isRunning()) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

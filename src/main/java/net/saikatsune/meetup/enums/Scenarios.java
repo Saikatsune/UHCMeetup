@@ -1,21 +1,25 @@
 package net.saikatsune.meetup.enums;
 
+import org.bukkit.Material;
+
 public enum Scenarios {
 
-    Default(false, 0),
-    Bowless(false, 0),
-    NoClean(false, 0),
-    Rodless(false, 0),
-    Fireless(false, 0),
-    TimeBomb(false, 0),
-    Soup(false, 0);
+    Default(false, 0, Material.TORCH),
+    Bowless(false, 0, Material.BOW),
+    NoClean(false, 0, Material.DIAMOND_SWORD),
+    Rodless(false, 0, Material.FISHING_ROD),
+    Fireless(false, 0, Material.FIRE),
+    TimeBomb(false, 0, Material.TNT),
+    Soup(false, 0, Material.MUSHROOM_SOUP);
 
     private boolean enabled;
     private int votes;
+    private Material scenarioItem;
 
-    Scenarios(boolean enabled, int votes) {
+    Scenarios(boolean enabled, int votes, Material scenarioItem) {
         this.enabled = enabled;
         this.votes = votes;
+        this.scenarioItem = scenarioItem;
     }
 
     public void setEnabled(boolean enabled) {
@@ -36,5 +40,9 @@ public enum Scenarios {
 
     public int getVotes() {
         return votes;
+    }
+
+    public Material getScenarioItem() {
+        return scenarioItem;
     }
 }

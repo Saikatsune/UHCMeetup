@@ -1,5 +1,7 @@
 package net.saikatsune.meetup;
 
+import net.saikatsune.meetup.board.MeetupBoardProvider;
+import net.saikatsune.meetup.board.SimpleBoardManager;
 import net.saikatsune.meetup.commands.ForceStartCommand;
 import net.saikatsune.meetup.commands.SetupCommand;
 import net.saikatsune.meetup.commands.StatsCommand;
@@ -18,21 +20,23 @@ import net.saikatsune.meetup.manager.*;
 import net.saikatsune.meetup.tasks.StartingTask;
 import net.saikatsune.meetup.tasks.TimeTask;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
 public class Game extends JavaPlugin {
 
     public static Game instance;
@@ -46,8 +50,8 @@ public class Game extends JavaPlugin {
     private LocationManager locationManager;
     private GameManager gameManager;
     private WorldManager worldManager;
-    private ScoreboardManager scoreboardManager;
     private DatabaseManager databaseManager;
+    private SimpleBoardManager simpleBoardManager;
 
     private FileHandler fileHandler;
     private InventoryHandler inventoryHandler;
@@ -57,6 +61,7 @@ public class Game extends JavaPlugin {
 
     private ArrayList<Player> players;
     private ArrayList<Player> spectators;
+    private ArrayList<UUID> loggedPlayers;
 
     private HashMap<UUID, Scenarios> hasVoted;
 
@@ -65,6 +70,11 @@ public class Game extends JavaPlugin {
 
     private boolean preparing;
     private boolean databaseActive;
+
+    private int startedWith;
+
+    private File scoreboardFile;
+    private FileConfiguration scoreboardConfig;
 
     @Override
     public void onEnable() {
@@ -77,11 +87,17 @@ public class Game extends JavaPlugin {
         mColor = getConfig().getString("SETTINGS.MAIN-COLOR").replace("&", "§");
         sColor = getConfig().getString("SETTINGS.SECONDARY-COLOR").replace("&", "§");
 
+        scoreboardFile = new File(getDataFolder(), "scoreboards.yml");
+        scoreboardConfig = YamlConfiguration.loadConfiguration(scoreboardFile);
+
+        if(!scoreboardFile.exists()) {
+            saveResource("scoreboards.yml", false);
+        }
+
         gameStateManager = new GameStateManager();
         locationManager = new LocationManager();
         gameManager = new GameManager();
         worldManager = new WorldManager();
-        scoreboardManager = new ScoreboardManager();
         databaseManager = new DatabaseManager();
 
         fileHandler = new FileHandler();
@@ -92,6 +108,7 @@ public class Game extends JavaPlugin {
 
         players = new ArrayList<>();
         spectators = new ArrayList<>();
+        loggedPlayers = new ArrayList<>();
 
         hasVoted = new HashMap<>();
 
@@ -100,6 +117,8 @@ public class Game extends JavaPlugin {
 
         preparing = true;
         databaseActive = getConfig().getBoolean("MYSQL.ENABLED");
+
+        startedWith = 0;
 
         if(databaseActive) {
             try {
@@ -131,8 +150,6 @@ public class Game extends JavaPlugin {
                 worldManager.loadWorld("uhc_meetup", getConfig().getInt("GAME.MAP-RADIUS"), 1000);
             }
         }, 20);
-
-        scoreboardManager.updateScoreboard();
     }
 
     @Override
@@ -159,8 +176,6 @@ public class Game extends JavaPlugin {
         config.addDefault("GAME.MIN-PLAYERS", 2);
         config.addDefault("GAME.MAP-RADIUS", 100);
 
-        config.addDefault("SCOREBOARD.HEADER", "&6&lUHCMeetup");
-
         config.addDefault("MYSQL.ENABLED", true);
         config.addDefault("MYSQL.HOST", "localhost");
         config.addDefault("MYSQL.USERNAME", "root");
@@ -184,6 +199,11 @@ public class Game extends JavaPlugin {
         pluginManager.registerEvents(new BlockChangeListener(), this);
         pluginManager.registerEvents(new EntityDamageListener(), this);
         pluginManager.registerEvents(new PlayerInteractListener(), this);
+
+        this.simpleBoardManager = new SimpleBoardManager(this, new MeetupBoardProvider(this));
+        pluginManager.registerEvents(this.simpleBoardManager, this);
+
+        pluginManager.registerEvents(new GlassBorderListener(), this);
 
         pluginManager.registerEvents(new FirelessListener(), this);
         pluginManager.registerEvents(new NoCleanListener(), this);
@@ -274,15 +294,35 @@ public class Game extends JavaPlugin {
         return playerKills;
     }
 
-    public ScoreboardManager getScoreboardManager() {
-        return scoreboardManager;
-    }
-
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
 
     public boolean isDatabaseActive() {
         return databaseActive;
+    }
+
+    public File getScoreboardFile() {
+        return scoreboardFile;
+    }
+
+    public FileConfiguration getScoreboardConfig() {
+        return scoreboardConfig;
+    }
+
+    public void setStartedWith(int startedWith) {
+        this.startedWith = startedWith;
+    }
+
+    public int getStartedWith() {
+        return startedWith;
+    }
+
+    public SimpleBoardManager getSimpleBoardManager() {
+        return simpleBoardManager;
+    }
+
+    public ArrayList<UUID> getLoggedPlayers() {
+        return loggedPlayers;
     }
 }

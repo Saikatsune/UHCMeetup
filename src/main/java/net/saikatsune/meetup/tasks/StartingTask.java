@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@SuppressWarnings("deprecation")
 public class StartingTask {
 
     private Game game = Game.getInstance();
@@ -25,12 +24,12 @@ public class StartingTask {
             public void run() {
                 switch (startingTime) {
                     case 60: case 30: case 20: case 10: case 5: case 4: case 3: case 2:
-                        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.GREEN + "The game starts" +
+                        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.GREEN + "The scatter starts" +
                                 " in " + startingTime + " seconds.");
                         game.getGameManager().playSound();
                         break;
                     case 1:
-                        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.GREEN + "The game starts" +
+                        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.GREEN + "The scatter starts" +
                                 " in " + startingTime + " second.");
                         game.getGameManager().playSound();
                         break;
@@ -51,7 +50,7 @@ public class StartingTask {
         Bukkit.getScheduler().cancelTask(taskID);
         startingTime = resetTime;
         running = false;
-        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.RED + "The game start has canceled due to lack of players.");
+        Bukkit.broadcastMessage(game.getPrefix() + ChatColor.RED + "The scatter start has canceled due to lack of players.");
     }
 
     public boolean isRunning() {

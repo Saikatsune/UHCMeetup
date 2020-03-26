@@ -43,47 +43,27 @@ public class VoteCommand implements CommandExecutor, Listener {
                 if(event.getCurrentItem() != null) {
                     event.setCancelled(true);
                     if(!game.getVoted().containsKey(player.getUniqueId())) {
-                        if(event.getCurrentItem().getType() == Material.TORCH) {
-                            votedScenario = Scenarios.Default;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.FISHING_ROD) {
-                            votedScenario = Scenarios.Rodless;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.BOW) {
-                            votedScenario = Scenarios.Bowless;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.TNT) {
-                            votedScenario = Scenarios.TimeBomb;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.FIRE) {
-                            votedScenario = Scenarios.Fireless;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.DIAMOND_SWORD) {
-                            votedScenario = Scenarios.NoClean;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.MUSHROOM_SOUP) {
-                            votedScenario = Scenarios.Soup;
-                            game.getVoted().put(player.getUniqueId(), votedScenario);
-                            votedScenario.addVote();
-                        } else if(event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE) {
-                            event.setCancelled(true);
+
+                        if(event.getCurrentItem().getType() == Material.STAINED_GLASS_PANE || event.getCurrentItem().getType()
+                                == Material.PAPER) {
+                            return;
+                        }
+
+                        for (Scenarios scenarios : Scenarios.values()) {
+                            if(event.getCurrentItem().getType() == scenarios.getScenarioItem()) {
+                                event.setCancelled(true);
+
+                                votedScenario = scenarios;
+                                game.getVoted().put(player.getUniqueId(), votedScenario);
+                                votedScenario.addVote();
+                            }
                         }
 
                         player.closeInventory();
 
-                        try {
-                            player.sendMessage(game.getPrefix() + ChatColor.GRAY + "You have voted for: " +
-                                    ChatColor.YELLOW + game.getVoted().get(player.getUniqueId()) + " " +  ChatColor.GRAY +
-                                    "(Total votes: " + game.getVoted().get(player.getUniqueId()).getVotes() + ")");
-                        } catch (Exception exception) {
-
-                        }
+                        player.sendMessage(game.getPrefix() + ChatColor.GRAY + "You have voted for: " +
+                                ChatColor.YELLOW + game.getVoted().get(player.getUniqueId()) + " " +  ChatColor.GRAY +
+                                "(Total votes: " + game.getVoted().get(player.getUniqueId()).getVotes() + ")");
                     } else {
                         player.closeInventory();
                         player.sendMessage(game.getPrefix() + ChatColor.RED + "You have already voted for: " +

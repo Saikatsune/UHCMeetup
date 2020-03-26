@@ -29,9 +29,8 @@ public class DatabaseManager {
                 return;
             }
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database +
-                    "?user=" + username + "&password=" + password +
-                    "&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10");
+            connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" +
+                    this.port + "/" + this.database + "?autoReconnect=true", this.username, this.password);
         }
     }
 

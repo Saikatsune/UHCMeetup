@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.saikatsune</groupId>
-    <artifactId>IceyMeetup</artifactId>
+    <artifactId>UHCMeetup</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -34,6 +34,13 @@
             <artifactId>spigot-api</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>WorldBorder</groupId>
+            <artifactId>WorldBorder</artifactId>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/worldborder.jar</systemPath>
         </dependency>
     </dependencies>
 

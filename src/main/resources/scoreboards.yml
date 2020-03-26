@@ -1,0 +1,42 @@
+#Placeholders:
+#Players: %players%
+#Default Votes: %defaultVotes%
+#TimeBomb Votes: %timebombVotes%
+#NoClean Votes: %nocleanVotes%
+#Fireless Votes: %firelessVotes%
+#Bowless Votes: %bowlessVotes%
+#Rodless Votes: %rodlessVotes%
+#Soup Votes: %soupVotes%
+#Game Time: %gameTime%
+#Started with: %startedWith%'
+#Kills: %kills%
+#Border: %borderSize%
+#Spectators: %spectators%
+#Maximum Players: %maximumPlayers%
+
+SCOREBOARDS:
+  TITLE: '&6&lUHCMeetup'
+  LOBBY:
+    LINES:
+      - '&7&m------------------'
+      - '&fPlayers: &6%players%/%maximumPlayers%'
+      - ''
+      - '&6&lScenario Votes:'
+      - '&fDefault: &6%defaultVotes%'
+      - '&fTimeBomb: &6%timebombVotes%'
+      - '&fNoClean: &6%nocleanVotes%'
+      - '&fFireless: &6%firelessVotes%'
+      - '&fBowless: &6%bowlessVotes%'
+      - '&fRodless: &6%rodlessVotes%'
+      - '&fSoup: &6%soupVotes%'
+      - '&7&m------------------'
+  INGAME:
+    LINES:
+      - '&7&m------------------'
+      - '&fGame Time: &6%gameTime%'
+      - '&fRemaining: &6%players%/%startedWith%'
+      - '&fYour kills: &6%kills%'
+      - '&fCurrent Border: &6%borderSize%'
+      - ''
+      - '&6your-server.ip'
+      - '&7&m------------------'

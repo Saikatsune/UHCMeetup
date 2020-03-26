@@ -50,6 +50,10 @@ public class PlayerInteractListener implements Listener {
 
         if(!(game.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
             event.setCancelled(true);
+        } else {
+            if(!player.getWorld().getName().equals("uhc_meetup")) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -61,6 +65,10 @@ public class PlayerInteractListener implements Listener {
 
         if(!(game.getGameStateManager().getCurrentGameState() instanceof IngameState)) {
             event.setCancelled(true);
+        } else {
+            if(!player.getWorld().getName().equals("uhc_meetup")) {
+                event.setCancelled(true);
+            }
         }
     }
 

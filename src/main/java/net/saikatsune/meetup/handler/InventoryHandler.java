@@ -26,25 +26,25 @@ public class InventoryHandler {
     public void handleVotingInventory(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 9, "Scenario Voting");
 
-        inventory.setItem(1, new ItemHandler(Material.TORCH).setDisplayName(game.getmColor() + "No Gamemodes").
+        inventory.setItem(1, new ItemHandler(Scenarios.Default.getScenarioItem()).setDisplayName(game.getmColor() + "No Gamemodes").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.Default.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(2, new ItemHandler(Material.FISHING_ROD).setDisplayName(game.getmColor() + "Rodless").
+        inventory.setItem(2, new ItemHandler(Scenarios.Rodless.getScenarioItem()).setDisplayName(game.getmColor() + "Rodless").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.Rodless.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(3, new ItemHandler(Material.BOW).setDisplayName(game.getmColor() + "Bowless").
+        inventory.setItem(3, new ItemHandler(Scenarios.Bowless.getScenarioItem()).setDisplayName(game.getmColor() + "Bowless").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.Bowless.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(4, new ItemHandler(Material.DIAMOND_SWORD).setDisplayName(game.getmColor() + "NoClean").
+        inventory.setItem(4, new ItemHandler(Scenarios.NoClean.getScenarioItem()).setDisplayName(game.getmColor() + "NoClean").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.NoClean.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(5, new ItemHandler(Material.FIRE).setDisplayName(game.getmColor() + "Fireless").
+        inventory.setItem(5, new ItemHandler(Scenarios.Fireless.getScenarioItem()).setDisplayName(game.getmColor() + "Fireless").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.Fireless.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(6, new ItemHandler(Material.TNT).setDisplayName(game.getmColor() + "TimeBomb").
+        inventory.setItem(6, new ItemHandler(Scenarios.TimeBomb.getScenarioItem()).setDisplayName(game.getmColor() + "TimeBomb").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.TimeBomb.getVotes(), "§7§m------------").build());
 
-        inventory.setItem(7, new ItemHandler(Material.MUSHROOM_SOUP).setDisplayName(game.getmColor() + "Soup").
+        inventory.setItem(7, new ItemHandler(Scenarios.Soup.getScenarioItem()).setDisplayName(game.getmColor() + "Soup").
                 setLore("§7§m------------", ChatColor.GRAY + "Votes: " + Scenarios.Soup.getVotes(), "§7§m------------").build());
 
         this.fillEmptySlots(inventory);

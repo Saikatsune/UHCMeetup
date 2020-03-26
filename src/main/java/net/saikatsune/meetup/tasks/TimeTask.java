@@ -4,7 +4,6 @@ import net.saikatsune.meetup.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@SuppressWarnings({"deprecation", "DuplicateCondition"})
 public class TimeTask {
 
     private Game game = Game.getInstance();
@@ -13,10 +12,10 @@ public class TimeTask {
 
     private int uptimeMinutes;
     private int uptimeSeconds;
-
     private int borderMinutes;
-
     private int firstShrink = 2;
+
+    private boolean running = false;
 
     private int getNextBorder() {
         if(game.getGameManager().getBorderSize() > 100) {
@@ -32,6 +31,8 @@ public class TimeTask {
     }
 
     public void startTask() {
+        running = true;
+
         taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(game, new BukkitRunnable() {
             @Override
             public void run() {
@@ -50,62 +51,62 @@ public class TimeTask {
                             case 30:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 30 seconds!");
+                                        " blocks in 30 seconds.");
                                 break;
                             case 40:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 20 seconds!");
+                                        " blocks in 20 seconds.");
                                 break;
                             case 50:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 10 seconds!");
+                                        " blocks in 10 seconds.");
                                 break;
                             case 51:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 9 seconds!");
+                                        " blocks in 9 seconds.");
                                 break;
                             case 52:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 8 seconds!");
+                                        " blocks in 8 seconds.");
                                 break;
                             case 53:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 7 seconds!");
+                                        " blocks in 7 seconds.");
                                 break;
                             case 54:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 6 seconds!");
+                                        " blocks in 6 seconds.");
                                 break;
                             case 55:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 5 seconds!");
+                                        " blocks in 5 seconds.");
                                 break;
                             case 56:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 4 seconds!");
+                                        " blocks in 4 seconds.");
                                 break;
                             case 57:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 3 seconds!");
+                                        " blocks in 3 seconds.");
                                 break;
                             case 58:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 2 seconds!");
+                                        " blocks in 2 seconds.");
                                 break;
                             case 59:
                                 game.getGameManager().playSound();
                                 Bukkit.broadcastMessage(game.getPrefix() + game.getsColor() + "The border is going to shrink to " + getNextBorder() + "x" + getNextBorder() +
-                                        " blocks in 1 second!");
+                                        " blocks in 1 second.");
                                 break;
                         }
                     }
@@ -123,6 +124,8 @@ public class TimeTask {
     }
 
     public void stopTask() {
+        running = false;
+
         Bukkit.getScheduler().cancelTask(taskID);
     }
 
@@ -148,7 +151,7 @@ public class TimeTask {
         return firstShrink;
     }
 
-    /*
-
-     */
+    public boolean isRunning() {
+        return running;
+    }
 }

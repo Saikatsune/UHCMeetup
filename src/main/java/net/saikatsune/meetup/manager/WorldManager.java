@@ -16,13 +16,6 @@ public class WorldManager {
 
     private Game game = Game.getInstance();
 
-    private String prefix = game.getPrefix();
-
-    private String mColor = game.getmColor();
-    private String sColor = game.getsColor();
-
-    private FileHandler fileHandler = game.getFileHandler();
-
     public void createWorld(String worldName, World.Environment environment, WorldType worldType) {
         World world = Bukkit.createWorld(new WorldCreator(worldName).environment(environment).type(worldType));
         world.setDifficulty(Difficulty.EASY);
